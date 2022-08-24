@@ -3,6 +3,11 @@ import os
 from numbers import Number
 from TodoController import ToDoController
 
+"""
+ Classe que manipula a interface que será apresentada ao usuário.
+ 
+ @author Herik Silva
+"""
 class TodoPresenter:
     __messageAlert: str
     __todoController: ToDoController
@@ -16,18 +21,29 @@ class TodoPresenter:
         self.__isRunning = True
 
     def __clear(self):
+        """
+        Limpa a interface CLI.
+        """
         if(platform.system() == "Windows"):
             os.system("cls")
         else:
             os.system("clear")
 
     def selectCommand(self, commandNumber: Number):
+        """
+        Seleciona o comando que será executado e o executa.
+        @param int commandNumber: número do comando.
+        """
         if(commandNumber < self.__commands.__len__()):
             self.__commands[commandNumber]()
         else:
             self.__messageAlert = "Opção inválida!"
 
     def menu(self):
+        """
+        Exibe o menu de opções juntamente com a lista de tarefas e uma mensagem
+        de alerta.
+        """
         while(self.__isRunning):
             commandNumber: Number
 
@@ -48,9 +64,15 @@ class TodoPresenter:
             self.selectCommand(commandNumber)
     
     def closeProgram(self):
+        """
+        Finaliza a execução do programa.
+        """
         self.__isRunning = False
 
     def checkToDo(self):
+        """
+        Interface que exibe as tarefas para marcar/desmarcar como feitas.
+        """
         goToMain = False
         while(not goToMain):
             if(not self.__todoController.isEmpty()):
@@ -76,6 +98,9 @@ class TodoPresenter:
             self.__clear()
 
     def newTodo(self):
+        """
+        Interface de criação de uma nova tarefa.
+        """
         description = input("Descreva a tarefa: ")
 
         if(description.__len__() > 0):
@@ -83,6 +108,10 @@ class TodoPresenter:
             self.__messageAlert = "A Tarefa " + description + " foi criada!"
 
     def removeToDo(self):
+        """
+        Interface que exibe as tarefas cadastradas no sistema, permitindo que o usuário
+        as remova.
+        """
         if(not self.__todoController.isEmpty()):
             print("| Remover Tarefa")
             self.__todoController.showToDo()
